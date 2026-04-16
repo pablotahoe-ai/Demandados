@@ -1,0 +1,123 @@
+/* ═══════════════════════════════════════════
+   EL JUEGO DE LA DEMANDA — Global Styles
+═══════════════════════════════════════════ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: #1a0e05;
+  color: #f0e6cc;
+  font-family: 'Special Elite', serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+#root {
+  min-height: 100vh;
+  background: #1a0e05;
+}
+
+/* Inputs */
+input {
+  font-family: 'Special Elite', serif;
+}
+
+input::placeholder {
+  color: #9a7a50;
+  font-style: italic;
+}
+
+input:focus {
+  border-color: #e07700 !important;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(224, 119, 0, 0.2);
+}
+
+/* Buttons reset */
+button {
+  font-family: 'Special Elite', serif;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a0e05;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a3010;
+  border-radius: 2px;
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+@keyframes timerFlash {
+  0%, 100% { color: #cc1a00; }
+  50%       { color: #ff4400; }
+}
+
+.fade-up {
+  animation: fadeUp 0.35s ease-out;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Card paper texture helper */
+.paper-card {
+  background: linear-gradient(145deg, #e8cc90, #d4a860);
+  border: 1px solid #a07030;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Stamp component */
+.stamp {
+  font-family: 'Bebas Neue', sans-serif;
+  border: 2px solid;
+  padding: 1px 8px;
+  border-radius: 3px;
+  letter-spacing: 2px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+/* Timer warning flash */
+.timer-warning {
+  animation: timerFlash 0.5s infinite;
+}
+
+/* Selection highlight */
+::selection {
+  background: rgba(224, 119, 0, 0.3);
+  color: #f0e6cc;
+}
