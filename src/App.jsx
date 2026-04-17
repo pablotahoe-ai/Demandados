@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { CASOS, MULT, START_MONEY, TRANSFER_MAX, TOTAL_CASES } from './data.js'
 
-/* ══════════════════════════════════════
-   HELPERS
-══════════════════════════════════════ */
 function shuffle(arr) {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
@@ -34,34 +31,25 @@ function calcTransfer(cs, ds) {
   return Math.min(TRANSFER_MAX, Math.max(1500, Math.round((diff / total) * TRANSFER_MAX * 2)))
 }
 
-/* ── Storage (localStorage para Netlify) ── */
 const pKey = n => 'jd3_' + n.toLowerCase().replace(/\s+/g, '_')
 const emptyP = n => ({ name: n, money: 0, wins: 0, losses: 0, streak: 0, best: 0 })
 
 function loadP(name) {
-  try {
-    const raw = localStorage.getItem(pKey(name))
-    if (raw) return JSON.parse(raw)
-  } catch {}
+  try { const raw = localStorage.getItem(pKey(name)); if (raw) return JSON.parse(raw) } catch {}
   return emptyP(name)
 }
-
 function saveP(p) {
   try { localStorage.setItem(pKey(p.name), JSON.stringify(p)) } catch {}
 }
 
-/* ══════════════════════════════════════
-   ATOMS
-══════════════════════════════════════ */
+/* ── ATOMS ── */
 function Card({ children, st = {} }) {
   return (
     <div style={{
       background: 'linear-gradient(145deg,#e8cc90,#d4a860)',
       border: '1px solid #a07030', borderRadius: 6, padding: 16,
       boxShadow: '0 4px 20px rgba(0,0,0,.5)', ...st
-    }}>
-      {children}
-    </div>
+    }}>{children}</div>
   )
 }
 
@@ -73,9 +61,7 @@ function BigBtn({ children, onClick, disabled, col = '#cc1a00' }) {
       cursor: disabled ? 'not-allowed' : 'pointer',
       fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, letterSpacing: 2,
       opacity: disabled ? 0.5 : 1, transition: 'all .15s',
-    }}>
-      {children}
-    </button>
+    }}>{children}</button>
   )
 }
 
@@ -85,13 +71,11 @@ function Stamp({ children, col = '#cc1a00', angle = -2 }) {
       fontFamily: "'Bebas Neue', sans-serif", border: `2px solid ${col}`,
       color: col, padding: '1px 8px', borderRadius: 3, letterSpacing: 2,
       fontSize: 12, display: 'inline-block', transform: `rotate(${angle}deg)`,
-    }}>
-      {children}
-    </span>
+    }}>{children}</span>
   )
 }
 
-/* ── Opción con reveal ── */
+/* ── OPCIÓN CON REVEAL ── */
 function OptReveal({ o, field, pickedId, onPick, isRevealing }) {
   const isSel = pickedId === o.id
   const val = o.v * MULT[field]
@@ -112,22 +96,16 @@ function OptReveal({ o, field, pickedId, onPick, isRevealing }) {
         <div style={{
           fontSize: 13, fontWeight: 'bold',
           color: isRevealing ? (pos ? '#b0ef70' : neg ? '#ff8080' : '#aaa') : (isSel ? '#f5c060' : '#3a2000'),
-        }}>
-          {o.lbl}
-        </div>
+        }}>{o.lbl}</div>
         {o.desc && !isRevealing && (
-          <div style={{ fontSize: 11, color: isSel ? '#d4a060' : '#5a3a10', marginTop: 2, lineHeight: 1.3 }}>
-            {o.desc}
-          </div>
+          <div style={{ fontSize: 11, color: isSel ? '#d4a060' : '#5a3a10', marginTop: 2, lineHeight: 1.3 }}>{o.desc}</div>
         )}
       </div>
       {isRevealing && (
         <div style={{
           fontFamily: "'Bebas Neue', sans-serif", fontSize: 18, flexShrink: 0,
           color: pos ? '#b0ef70' : neg ? '#ff8080' : '#888', minWidth: 84, textAlign: 'right',
-        }}>
-          {val > 0 ? '+' : ''}{fmt(val)}
-        </div>
+        }}>{val > 0 ? '+' : ''}{fmt(val)}</div>
       )}
       {!isRevealing && isSel && (
         <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#e07700', flexShrink: 0 }} />
@@ -136,8 +114,10 @@ function OptReveal({ o, field, pickedId, onPick, isRevealing }) {
   )
 }
 
-/* ── Fase single-choice ── */
-function FaseScreen({ title, sub, hint, gc, field, onPick, timer }) {
+/* ── FASE SINGLE-CHOICE
+   KEY FIX: cada instancia es fresh porque el padre le pasa key={fase}
+── */
+function FaseScreen({ title, sub, hint, gc, field, onPick, timerSeconds, onMountTimer }) {
   const [pickedId, setPickedId] = useState(null)
   const [isRevealing, setIsRevealing] = useState(false)
   const doneRef = useRef(false)
@@ -150,17 +130,19 @@ function FaseScreen({ title, sub, hint, gc, field, onPick, timer }) {
     setTimeout(() => onPick(id), 2500)
   }, [onPick])
 
+  // Exponer handlePick al padre para que el timer pueda llamarlo
+  useEffect(() => {
+    if (onMountTimer) onMountTimer(handlePick, doneRef)
+  }, [])
+
   return (
     <div>
-      {timer && <div style={{ marginBottom: 16 }}>{timer(handlePick, doneRef)}</div>}
       <div style={{ marginBottom: 14 }}>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, color: '#d4a030', letterSpacing: 2 }}>{title}</div>
         <div style={{ fontSize: 12, color: '#8a7a60', marginTop: 2 }}>{sub}</div>
       </div>
       {hint && !isRevealing && (
-        <div style={{ background: 'rgba(200,160,60,.12)', border: '1px solid #8a6030', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#c49040', marginBottom: 14, fontStyle: 'italic' }}>
-          {hint}
-        </div>
+        <div style={{ background: 'rgba(200,160,60,.12)', border: '1px solid #8a6030', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#c49040', marginBottom: 14, fontStyle: 'italic' }}>{hint}</div>
       )}
       {isRevealing && (
         <div style={{ background: 'rgba(200,160,60,.12)', border: '1px solid #d4a030', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#d4a030', marginBottom: 14, textAlign: 'center', fontFamily: "'Bebas Neue', sans-serif", letterSpacing: 2 }}>
@@ -176,45 +158,31 @@ function FaseScreen({ title, sub, hint, gc, field, onPick, timer }) {
   )
 }
 
-/* ── Prueba multi-select ── */
+/* ── PRUEBA MULTI-SELECT ── */
 function PruebaScreen({ gc, selected, onToggle, onConfirm }) {
   const [confirmed, setConfirmed] = useState(false)
   const [isRevealing, setIsRevealing] = useState(false)
-
   const doConfirm = () => {
     if (confirmed || selected.length === 0) return
-    setConfirmed(true)
-    setIsRevealing(true)
+    setConfirmed(true); setIsRevealing(true)
     setTimeout(() => onConfirm(), 2500)
   }
-
   return (
     <div>
       <div style={{ marginBottom: 14 }}>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, color: '#d4a030', letterSpacing: 2 }}>🔍 ELEGÍ TUS PRUEBAS</div>
         <div style={{ fontSize: 12, color: '#8a7a60', marginTop: 2 }}>Hasta 3 — elegí las más sólidas</div>
       </div>
-      {!isRevealing && (
-        <div style={{ background: 'rgba(200,160,60,.12)', border: '1px solid #8a6030', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#c49040', marginBottom: 14, fontStyle: 'italic' }}>
-          No todo lo que tenés sirve igual. Pensá bien.
-        </div>
-      )}
-      {isRevealing && (
-        <div style={{ background: 'rgba(200,160,60,.12)', border: '1px solid #d4a030', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#d4a030', marginBottom: 14, textAlign: 'center', fontFamily: "'Bebas Neue', sans-serif", letterSpacing: 2 }}>
-          ⚖️ VALOR DE CADA PRUEBA ↓
-        </div>
-      )}
+      {!isRevealing && <div style={{ background: 'rgba(200,160,60,.12)', border: '1px solid #8a6030', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#c49040', marginBottom: 14, fontStyle: 'italic' }}>No todo lo que tenés sirve igual. Pensá bien.</div>}
+      {isRevealing && <div style={{ background: 'rgba(200,160,60,.12)', border: '1px solid #d4a030', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#d4a030', marginBottom: 14, textAlign: 'center', fontFamily: "'Bebas Neue', sans-serif", letterSpacing: 2 }}>⚖️ VALOR DE CADA PRUEBA ↓</div>}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
         {gc.prueba.map(o => {
           const isSel = selected.includes(o.id)
           const blocked = !isSel && selected.length >= 3
-          const val = o.v * MULT.prueba
-          const pos = val > 0; const neg = val < 0
+          const val = o.v * MULT.prueba; const pos = val > 0; const neg = val < 0
           return (
             <button key={o.id} onClick={() => !blocked && !confirmed && onToggle(o.id)} style={{
-              background: isRevealing
-                ? (isSel ? (pos ? 'rgba(10,50,5,0.95)' : 'rgba(80,5,5,0.95)') : (pos ? 'rgba(10,50,5,0.5)' : neg ? 'rgba(80,5,5,0.45)' : 'rgba(30,30,30,0.45)'))
-                : (isSel ? '#4a2000' : '#c49040'),
+              background: isRevealing ? (isSel ? (pos ? 'rgba(10,50,5,0.95)' : 'rgba(80,5,5,0.95)') : (pos ? 'rgba(10,50,5,0.5)' : neg ? 'rgba(80,5,5,0.45)' : 'rgba(30,30,30,0.45)')) : (isSel ? '#4a2000' : '#c49040'),
               border: `2px solid ${isRevealing ? (pos ? '#4a9a20' : neg ? '#cc2200' : '#555') : (isSel ? '#e07700' : '#a07030')}`,
               borderRadius: 6, padding: '11px 10px', textAlign: 'left', width: '100%',
               cursor: (blocked || confirmed) ? 'default' : 'pointer', opacity: blocked ? 0.4 : 1,
@@ -228,43 +196,34 @@ function PruebaScreen({ gc, selected, onToggle, onConfirm }) {
           )
         })}
       </div>
-      {!isRevealing && (
-        <>
-          <div style={{ fontSize: 12, color: '#8a7a60', textAlign: 'center', marginBottom: 12 }}>{selected.length}/3 pruebas seleccionadas</div>
-          <BigBtn onClick={doConfirm} disabled={selected.length === 0} col="#e07700">CONFIRMAR PRUEBAS →</BigBtn>
-        </>
-      )}
+      {!isRevealing && <>
+        <div style={{ fontSize: 12, color: '#8a7a60', textAlign: 'center', marginBottom: 12 }}>{selected.length}/3 seleccionadas</div>
+        <BigBtn onClick={doConfirm} disabled={selected.length === 0} col="#e07700">CONFIRMAR PRUEBAS →</BigBtn>
+      </>}
     </div>
   )
 }
 
-/* ── Timer ── */
+/* ── TIMER ── */
 function TimerBar({ seconds, onTimeout, runKey }) {
   const [t, setT] = useState(seconds)
   const iv = useRef(null)
   const fired = useRef(false)
-
   useEffect(() => {
-    setT(seconds)
-    fired.current = false
+    setT(seconds); fired.current = false
     clearInterval(iv.current)
     iv.current = setInterval(() => {
       setT(p => {
-        if (p <= 1) {
-          clearInterval(iv.current)
-          if (!fired.current) { fired.current = true; onTimeout() }
-          return 0
-        }
+        if (p <= 1) { clearInterval(iv.current); if (!fired.current) { fired.current = true; onTimeout() }; return 0 }
         return p - 1
       })
     }, 1000)
     return () => clearInterval(iv.current)
   }, [runKey])
-
   const pct = (t / seconds) * 100
   const col = pct > 50 ? '#4a8a20' : pct > 25 ? '#cc7700' : '#cc1a00'
   return (
-    <div>
+    <div style={{ marginBottom: 16 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
         <span style={{ fontSize: 11, color: '#8a7a60', letterSpacing: 1 }}>⏱️ TIEMPO PARA RESPONDER</span>
         <span style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, color: col }}>{t}s</span>
@@ -276,7 +235,7 @@ function TimerBar({ seconds, onTimeout, runKey }) {
   )
 }
 
-/* ── Game Header ── */
+/* ── GAME HEADER ── */
 function GameHeader({ titulo, idx, total, sc, n1, n2, mon }) {
   return (
     <div style={{ marginBottom: 12 }}>
@@ -306,7 +265,7 @@ function GameHeader({ titulo, idx, total, sc, n1, n2, mon }) {
   )
 }
 
-/* ── Handoff ── */
+/* ── HANDOFF ── */
 function HandoffScreen({ to, onReady }) {
   return (
     <div style={{ textAlign: 'center', paddingTop: 32 }}>
@@ -315,15 +274,8 @@ function HandoffScreen({ to, onReady }) {
       <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 36, color: '#cc1a00', marginBottom: 4 }}>{to}</div>
       <div style={{ fontSize: 13, color: '#8a7a60', marginBottom: 28 }}>debe responder la demanda</div>
       <Card st={{ textAlign: 'left', marginBottom: 20 }}>
-        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, color: '#3a2800', letterSpacing: 1, marginBottom: 10 }}>
-          🔨 INSTRUCCIONES PARA {to.split(' ')[0].toUpperCase()}
-        </div>
-        {[
-          '⏱️ Tenés 60 segundos por cada decisión',
-          '💀 Si el tiempo se acaba, perdés la jugada',
-          '🤐 No sabés cómo jugó el otro — confiá en tu instinto',
-          '💡 Al elegir, todas las opciones revelan su valor',
-        ].map((t, i) => (
+        <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, color: '#3a2800', letterSpacing: 1, marginBottom: 10 }}>🔨 INSTRUCCIONES PARA {to.split(' ')[0].toUpperCase()}</div>
+        {['⏱️ Tenés 60 segundos por cada decisión', '💀 Si el tiempo se acaba, perdés la jugada', '🤐 No sabés cómo jugó el otro — confiá en tu instinto', '💡 Al elegir, todas las opciones revelan su valor'].map((t, i) => (
           <div key={i} style={{ fontSize: 13, color: '#3a2000', marginBottom: 6, lineHeight: 1.4 }}>{t}</div>
         ))}
       </Card>
@@ -334,6 +286,9 @@ function HandoffScreen({ to, onReady }) {
 
 /* ══════════════════════════════════════
    GAME SCREEN
+   BUG FIX: key={fase} en cada FaseScreen fuerza
+   unmount/remount completo al cambiar de fase,
+   reseteando pickedId e isRevealing desde cero.
 ══════════════════════════════════════ */
 function GameScreen({ p1, p2name, idx, order, demIs, matchSc, matchMon, onResult, total }) {
   const gc = CASOS[order[idx]]
@@ -343,34 +298,38 @@ function GameScreen({ p1, p2name, idx, order, demIs, matchSc, matchMon, onResult
   const [ch, setCh] = useState({ gravedad: null, prueba: [], forma: null, respuesta: null, argumento: null, escalada: null, timeout: false })
   const [tk, setTk] = useState(0)
 
-  const advance = useCallback((next) => {
+  // Refs para pasar handlePick al timer desde afuera del FaseScreen
+  const pickRef = useRef(null)
+  const doneRef = useRef(null)
+
+  const advance = (next) => {
     setFase(next)
     if (['respuesta', 'argumento', 'escalada'].includes(next)) setTk(k => k + 1)
-  }, [])
+  }
 
-  const pick = useCallback((field, id, next, isLast = false) => {
+  const pick = (field, id, next, isLast = false) => {
     setCh(prev => {
       const nc = { ...prev, [field]: id }
       if (isLast) setTimeout(() => onResult({ ch: nc, gc, demIs }), 2500)
       else setTimeout(() => advance(next), 2500)
       return nc
     })
-  }, [gc, demIs, onResult, advance])
+  }
 
-  const mkTimer = useCallback((field, nextFase, isLast = false) => (handlePick, doneRef) => (
-    <TimerBar seconds={60} runKey={tk + (field === 'argumento' ? 10 : field === 'escalada' ? 20 : 0)} onTimeout={() => {
-      if (doneRef.current) return
-      doneRef.current = true
-      const worst = [...gc[field]].sort((a, b) => a.v - b.v)[0].id
-      const timeout = field === 'escalada'
+  // Timeout handler — usa pickRef para llamar al handlePick del FaseScreen activo
+  const handleTimeout = (field, next, isLast = false) => {
+    if (doneRef.current && doneRef.current.current) return
+    const worst = [...gc[field]].sort((a, b) => a.v - b.v)[0].id
+    if (pickRef.current) pickRef.current(worst)
+    else {
       setCh(prev => {
-        const nc = { ...prev, [field]: worst, timeout }
+        const nc = { ...prev, [field]: worst, timeout: isLast ? true : prev.timeout }
         if (isLast) setTimeout(() => onResult({ ch: nc, gc, demIs }), 100)
-        else setTimeout(() => advance(nextFase), 100)
+        else setTimeout(() => advance(next), 100)
         return nc
       })
-    }} />
-  ), [gc, tk, demIs, onResult, advance])
+    }
+  }
 
   const hdr = <GameHeader titulo={gc.titulo} idx={idx} total={total} sc={matchSc} n1={p1.name} n2={p2name} mon={matchMon} />
 
@@ -396,26 +355,83 @@ function GameScreen({ p1, p2name, idx, order, demIs, matchSc, matchMon, onResult
     </div>
   )
 
-  if (fase === 'gravedad') return <div>{hdr}<FaseScreen title="⚖️ ¿QUÉ TAN GRAVE ES?" sub={`${demName} — evaluá la situación`} hint="Tu reclamo empieza aquí. El juego evaluará si fuiste proporcional." gc={gc} field="gravedad" onPick={id => pick('gravedad', id, 'prueba')} /></div>
+  if (fase === 'gravedad') return (
+    <div>{hdr}
+      {/* KEY FIX — key={fase} garantiza componente fresco en cada fase */}
+      <FaseScreen key="gravedad"
+        title="⚖️ ¿QUÉ TAN GRAVE ES?" sub={`${demName} — evaluá la situación`}
+        hint="Tu reclamo empieza aquí. El juego evaluará si fuiste proporcional."
+        gc={gc} field="gravedad"
+        onPick={id => pick('gravedad', id, 'prueba')}
+      />
+    </div>
+  )
 
-  if (fase === 'prueba') return <div>{hdr}<PruebaScreen gc={gc} selected={ch.prueba} onToggle={id => setCh(c => ({ ...c, prueba: c.prueba.includes(id) ? c.prueba.filter(x => x !== id) : c.prueba.length < 3 ? [...c.prueba, id] : c.prueba }))} onConfirm={() => advance('forma')} /></div>
+  if (fase === 'prueba') return (
+    <div>{hdr}
+      <PruebaScreen key="prueba" gc={gc} selected={ch.prueba}
+        onToggle={id => setCh(c => ({ ...c, prueba: c.prueba.includes(id) ? c.prueba.filter(x => x !== id) : c.prueba.length < 3 ? [...c.prueba, id] : c.prueba }))}
+        onConfirm={() => advance('forma')}
+      />
+    </div>
+  )
 
-  if (fase === 'forma') return <div>{hdr}<FaseScreen title="📢 ¿CÓMO LO PLANTEÁS?" sub={`${demName} — forma de presentar el reclamo`} hint="La forma importa tanto como el fondo." gc={gc} field="forma" onPick={id => pick('forma', id, 'handoff')} /></div>
+  if (fase === 'forma') return (
+    <div>{hdr}
+      <FaseScreen key="forma"
+        title="📢 ¿CÓMO LO PLANTEÁS?" sub={`${demName} — forma de presentar el reclamo`}
+        hint="La forma importa tanto como el fondo."
+        gc={gc} field="forma"
+        onPick={id => pick('forma', id, 'handoff')}
+      />
+    </div>
+  )
 
   if (fase === 'handoff') return <HandoffScreen to={defName} onReady={() => advance('respuesta')} />
 
-  if (fase === 'respuesta') return <div>{hdr}<FaseScreen title="🛡️ ¿CÓMO RESPONDÉS?" sub={`${defName} — tu primera jugada`} hint="Esta es tu primera reacción. Define el tono de toda tu defensa." gc={gc} field="respuesta" timer={mkTimer('respuesta', 'argumento')} onPick={id => pick('respuesta', id, 'argumento')} /></div>
+  if (fase === 'respuesta') return (
+    <div>{hdr}
+      <TimerBar seconds={60} runKey={tk} onTimeout={() => handleTimeout('respuesta', 'argumento')} />
+      <FaseScreen key="respuesta"
+        title="🛡️ ¿CÓMO RESPONDÉS?" sub={`${defName} — tu primera jugada`}
+        hint="Esta es tu primera reacción. Define el tono de toda tu defensa."
+        gc={gc} field="respuesta"
+        onMountTimer={(hp, dr) => { pickRef.current = hp; doneRef.current = dr }}
+        onPick={id => pick('respuesta', id, 'argumento')}
+      />
+    </div>
+  )
 
-  if (fase === 'argumento') return <div>{hdr}<FaseScreen title="🗣️ TU ARGUMENTO" sub={`${defName} — reforzá tu posición`} hint="Tu defensa de fondo. Acá se consolida o se cae tu caso." gc={gc} field="argumento" timer={mkTimer('argumento', 'escalada')} onPick={id => pick('argumento', id, 'escalada')} /></div>
+  if (fase === 'argumento') return (
+    <div>{hdr}
+      <TimerBar seconds={60} runKey={tk} onTimeout={() => handleTimeout('argumento', 'escalada')} />
+      <FaseScreen key="argumento"
+        title="🗣️ TU ARGUMENTO" sub={`${defName} — reforzá tu posición`}
+        hint="Tu defensa de fondo. Acá se consolida o se cae tu caso."
+        gc={gc} field="argumento"
+        onMountTimer={(hp, dr) => { pickRef.current = hp; doneRef.current = dr }}
+        onPick={id => pick('argumento', id, 'escalada')}
+      />
+    </div>
+  )
 
-  if (fase === 'escalada') return <div>{hdr}<FaseScreen title="🔨 DECISIÓN FINAL" sub={`${defName} — última jugada del caso`} hint="No hay vuelta atrás. La mejor decisión cierra el caso." gc={gc} field="escalada" timer={mkTimer('escalada', null, true)} onPick={id => pick('escalada', id, null, true)} /></div>
+  if (fase === 'escalada') return (
+    <div>{hdr}
+      <TimerBar seconds={60} runKey={tk} onTimeout={() => handleTimeout('escalada', null, true)} />
+      <FaseScreen key="escalada"
+        title="🔨 DECISIÓN FINAL" sub={`${defName} — última jugada del caso`}
+        hint="No hay vuelta atrás. La mejor decisión cierra el caso."
+        gc={gc} field="escalada"
+        onMountTimer={(hp, dr) => { pickRef.current = hp; doneRef.current = dr }}
+        onPick={id => pick('escalada', id, null, true)}
+      />
+    </div>
+  )
 
   return <div />
 }
 
-/* ══════════════════════════════════════
-   RESULT SCREENS
-══════════════════════════════════════ */
+/* ── CASO RESULT ── */
 function CasoResultScreen({ gc, demName, defName, stacks, choices, matchSc, matchMon, idx, total, onNext }) {
   const { cs, ds } = stacks
   const demGano = cs > ds; const empate = cs === ds
@@ -423,7 +439,6 @@ function CasoResultScreen({ gc, demName, defName, stacks, choices, matchSc, matc
   const [show, setShow] = useState(false)
   useEffect(() => { const t = setTimeout(() => setShow(true), 600); return () => clearTimeout(t) }, [])
   const lbl = (field, id) => gc[field]?.find(x => x.id === id)?.lbl || '—'
-
   return (
     <div>
       <div style={{ textAlign: 'center', marginBottom: 16 }}>
@@ -461,7 +476,9 @@ function CasoResultScreen({ gc, demName, defName, stacks, choices, matchSc, matc
           <div style={{ fontSize: 12, color: '#3a2000', lineHeight: 2 }}>
             <div><strong>{demName.split(' ')[0]}</strong> · Gravedad: <em>{lbl('gravedad', choices.gravedad)}</em></div>
             <div><strong>{demName.split(' ')[0]}</strong> · Forma: <em>{lbl('forma', choices.forma)}</em></div>
-            <div style={{ borderTop: '1px dashed #c49040', paddingTop: 6, marginTop: 4 }}><strong>{defName.split(' ')[0]}</strong> · Respuesta: <em>{lbl('respuesta', choices.respuesta)}</em></div>
+            <div style={{ borderTop: '1px dashed #c49040', paddingTop: 6, marginTop: 4 }}>
+              <strong>{defName.split(' ')[0]}</strong> · Respuesta: <em>{lbl('respuesta', choices.respuesta)}</em>
+            </div>
             <div><strong>{defName.split(' ')[0]}</strong> · Argumento: <em>{lbl('argumento', choices.argumento)}</em></div>
             <div><strong>{defName.split(' ')[0]}</strong> · Escalada: <em>{lbl('escalada', choices.escalada)}</em></div>
           </div>
@@ -517,9 +534,7 @@ function MatchResultScreen({ n1, n2, matchSc, matchMon, onReset }) {
   )
 }
 
-/* ══════════════════════════════════════
-   MAIN SCREENS
-══════════════════════════════════════ */
+/* ── MAIN SCREENS ── */
 function RegisterScreen({ onDone }) {
   const [name, setName] = useState('')
   const go = () => { if (name.trim().length < 4) return; onDone(loadP(name.trim())) }
@@ -532,7 +547,7 @@ function RegisterScreen({ onDone }) {
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, color: '#3a2800', letterSpacing: 1, marginBottom: 10, borderBottom: '1px solid #b8923a', paddingBottom: 8 }}>👨‍⚖️ IDENTIFICACIÓN DEL LITIGANTE</div>
         <label style={{ fontSize: 11, color: '#5a3a10', letterSpacing: 1, display: 'block', marginBottom: 6 }}>NOMBRE COMPLETO</label>
         <input value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === 'Enter' && go()} placeholder="Ej: María González"
-          style={{ width: '100%', padding: '12px 14px', background: '#f5e8c0', border: '1px solid #a07030', borderRadius: 4, fontSize: 15, color: '#1a0a00' }} />
+          style={{ width: '100%', padding: '12px 14px', background: '#f5e8c0', border: '1px solid #a07030', borderRadius: 4, fontSize: 15, color: '#1a0a00', outline: 'none' }} />
         <div style={{ fontSize: 11, color: '#8a7a60', marginTop: 6 }}>Aparecerá en todas tus demandas</div>
       </Card>
       <BigBtn onClick={go} disabled={name.trim().length < 4} col="#e07700">⚖️ INGRESAR AL TRIBUNAL</BigBtn>
@@ -589,19 +604,12 @@ function OnlineScreen({ p1, onBack }) {
   const caseId = useRef(Math.floor(Math.random() * CASOS.length))
   const challengeId = useRef(Math.random().toString(36).slice(2, 8).toUpperCase())
   const gc = CASOS[caseId.current]
-
   const sendWhatsApp = () => {
     const appUrl = window.location.href.split('?')[0] + '?challenge=' + challengeId.current
-    const msg = encodeURIComponent(
-      `⚖️ *${p1.name} te inició una DEMANDA* ⚖️\n\n` +
-      `📋 Caso: _"${gc.titulo}"_\n\n` +
-      `Tenés 24hs para responder. Hacé click acá para defenderte:\n${appUrl}\n\n` +
-      `_(No es un virus 😂 — es El Juego de la Demanda. ¡Aceptá si te animás!)_`
-    )
+    const msg = encodeURIComponent(`⚖️ *${p1.name} te inició una DEMANDA* ⚖️\n\n📋 Caso: _"${gc.titulo}"_\n\nTenés 24hs para responder. Hacé click acá para defenderte:\n${appUrl}\n\n_(No es un virus 😂 — es El Juego de la Demanda. ¡Aceptá si te animás!)_`)
     window.open(`https://wa.me/?text=${msg}`, '_blank')
     setSent(true)
   }
-
   return (
     <div style={{ paddingTop: 16 }}>
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
@@ -612,20 +620,16 @@ function OnlineScreen({ p1, onBack }) {
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 13, color: '#3a2800', letterSpacing: 1, marginBottom: 10 }}>⚖️ CASO QUE VAS A DEMANDAR</div>
         <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}><Stamp>{gc.cat}</Stamp></div>
         <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 20, color: '#3a2800', marginBottom: 6 }}>{gc.titulo}</div>
-        <p style={{ fontSize: 13, color: '#5a3a10', lineHeight: 1.5, marginBottom: 12 }}>{gc.desc}</p>
-        <div style={{ background: 'rgba(0,0,0,.06)', borderRadius: 4, padding: '8px 12px', fontSize: 12, color: '#6a4a20' }}>
-          ID del reto: <strong style={{ fontFamily: "'Bebas Neue', sans-serif", color: '#0066cc' }}>{challengeId.current}</strong>
-        </div>
+        <p style={{ fontSize: 13, color: '#5a3a10', lineHeight: 1.5 }}>{gc.desc}</p>
       </Card>
-      {!sent ? (
-        <BigBtn onClick={sendWhatsApp} col="#25D366">📲 ABRIR WHATSAPP Y ENVIAR RETO</BigBtn>
-      ) : (
-        <Card st={{ textAlign: 'center', marginBottom: 16, borderTop: '4px solid #25D366' }}>
-          <div style={{ fontSize: 36, marginBottom: 8 }}>✅</div>
-          <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, color: '#3a2800', marginBottom: 4 }}>RETO ENVIADO</div>
-          <div style={{ fontSize: 13, color: '#5a3a10' }}>Esperás que tu rival acepte la demanda</div>
-        </Card>
-      )}
+      {!sent
+        ? <BigBtn onClick={sendWhatsApp} col="#25D366">📲 ABRIR WHATSAPP Y ENVIAR RETO</BigBtn>
+        : <Card st={{ textAlign: 'center', borderTop: '4px solid #25D366' }}>
+            <div style={{ fontSize: 36, marginBottom: 8 }}>✅</div>
+            <div style={{ fontFamily: "'Bebas Neue', sans-serif", fontSize: 22, color: '#3a2800', marginBottom: 4 }}>RETO ENVIADO</div>
+            <div style={{ fontSize: 13, color: '#5a3a10' }}>Esperás que tu rival acepte la demanda</div>
+          </Card>
+      }
       <div style={{ marginTop: 12, textAlign: 'center' }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#6a5a40', fontSize: 12, cursor: 'pointer', textDecoration: 'underline' }}>← Volver al inicio</button>
       </div>
@@ -654,7 +658,7 @@ function SetupScreen({ p1, onDone }) {
         <div style={{ borderTop: '1px dashed #b8923a', paddingTop: 14 }}>
           <label style={{ fontSize: 11, color: '#5a3a10', letterSpacing: 1, display: 'block', marginBottom: 6 }}>🛡️ NOMBRE DEL RIVAL</label>
           <input value={name} onChange={e => setName(e.target.value)} onKeyDown={e => e.key === 'Enter' && name.trim().length >= 4 && onDone(name.trim())} placeholder="Nombre completo del rival"
-            style={{ width: '100%', padding: '12px 14px', background: '#f5e8c0', border: '1px solid #a07030', borderRadius: 4, fontSize: 15, color: '#1a0a00' }} />
+            style={{ width: '100%', padding: '12px 14px', background: '#f5e8c0', border: '1px solid #a07030', borderRadius: 4, fontSize: 15, color: '#1a0a00', outline: 'none' }} />
         </div>
       </Card>
       <BigBtn onClick={() => onDone(name.trim())} disabled={name.trim().length < 4} col="#cc1a00">⚖️ COMENZAR PARTIDA</BigBtn>
@@ -756,7 +760,11 @@ export default function App() {
     setIdx(i => i + 1); setDemIs(d => d === 'p1' ? 'p2' : 'p1'); setLastResult(null); setScr('game')
   }
 
-  const reset = () => { setIdx(0); setDemIs('p1'); setMatchSc({ p1: 0, p2: 0 }); setMatchMon({ p1: START_MONEY, p2: START_MONEY }); setLastResult(null); setP2name(''); setScr('home') }
+  const reset = () => {
+    setIdx(0); setDemIs('p1'); setMatchSc({ p1: 0, p2: 0 })
+    setMatchMon({ p1: START_MONEY, p2: START_MONEY })
+    setLastResult(null); setP2name(''); setScr('home')
+  }
 
   const demName = lastResult ? (lastResult.demIs === 'p1' ? p1?.name : p2name) : ''
   const defName = lastResult ? (lastResult.demIs === 'p1' ? p2name : p1?.name) : ''
@@ -775,7 +783,7 @@ export default function App() {
         {scr === 'online' && p1 && <OnlineScreen p1={p1} onBack={() => setScr('home')} />}
         {scr === 'setup' && p1 && <SetupScreen p1={p1} onDone={n => startGame(n)} />}
         {scr === 'welcome' && p1 && p2name && <WelcomeScreen n1={p1.name} n2={p2name} startsWith={starter === 'p1' ? p1.name : p2name} juzgado={juzgado} exp={exp} onStart={() => setScr('game')} />}
-        {scr === 'game' && p1 && p2name && order.length > 0 && <GameScreen p1={p1} p2name={p2name} idx={idx} order={order} demIs={demIs} matchSc={matchSc} matchMon={matchMon} onResult={onResult} total={TOTAL_CASES} />}
+        {scr === 'game' && p1 && p2name && order.length > 0 && <GameScreen key={idx} p1={p1} p2name={p2name} idx={idx} order={order} demIs={demIs} matchSc={matchSc} matchMon={matchMon} onResult={onResult} total={TOTAL_CASES} />}
         {scr === 'casoResult' && lastResult && <CasoResultScreen gc={lastResult.gc} demName={demName} defName={defName} stacks={lastResult.stacks} choices={lastResult.ch} matchSc={matchSc} matchMon={matchMon} idx={idx} total={TOTAL_CASES} onNext={onNext} />}
         {scr === 'matchResult' && <MatchResultScreen n1={p1?.name || ''} n2={p2name} matchSc={matchSc} matchMon={matchMon} onReset={reset} />}
       </div>
