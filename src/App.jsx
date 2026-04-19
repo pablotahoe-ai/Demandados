@@ -907,6 +907,42 @@ function SetupScreen({p1, onDone}) {
   )
 }
 
+function CaseSelectScreen({demName, onSelect}) {
+  const [selected, setSelected] = useState(null)
+  const catColors = {'AMIGOS':'#e07700','PAREJA':'#cc1a00','DIGITAL':'#0066cc','CONVIVENCIA':'#16a34a','CONSUMO':'#7c3aed','SOCIAL':'#db2777','TRABAJO':'#0891b2','VECINOS':'#b45309','PRESTAMO':'#dc2626'}
+  const getCatColor = (cat) => { const k=Object.keys(catColors).find(k=>cat.includes(k)); return k?catColors[k]:'#8a5a00' }
+  return (
+    <div>
+      <div style={{textAlign:'center',marginBottom:20}}>
+        <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,color:'#8a7a60',letterSpacing:3,marginBottom:6}}>ELEGÍ EL CONFLICTO</div>
+        <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:28,color:'#d4a030',marginBottom:4}}>DE QUE DEMANDAS?</div>
+        <div style={{fontSize:13,color:'#8a7a60'}}>{demName} — elegí el caso que vas a iniciar</div>
+      </div>
+      <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:20}}>
+        {CASOS.map(gc=>{
+          const isSel=selected===gc.id
+          const col=getCatColor(gc.cat)
+          return (
+            <button key={gc.id} onClick={()=>setSelected(isSel?null:gc.id)} style={{background:isSel?'#2a1200':'#c49040',border:`2px solid ${isSel?col:'#a07030'}`,borderRadius:4,padding:'12px 14px',textAlign:'left',width:'100%',cursor:'pointer',transition:'all .2s'}}>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div style={{background:isSel?col:'rgba(0,0,0,.12)',borderRadius:3,padding:'2px 8px',flexShrink:0}}>
+                  <span style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:10,color:isSel?'#fff':'#5a3a10',letterSpacing:2}}>{gc.cat.split(' ')[0]}</span>
+                </div>
+                <div style={{flex:1}}>
+                  <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:16,color:isSel?'#f5c060':'#2a1800',letterSpacing:1,marginBottom:2}}>{gc.titulo}</div>
+                  <div style={{fontSize:11,color:isSel?'#c49040':'#5a3a10',lineHeight:1.4}}>{gc.desc.length>80?gc.desc.slice(0,80)+'…':gc.desc}</div>
+                </div>
+                {isSel&&<div style={{width:10,height:10,borderRadius:'50%',background:col,flexShrink:0}}/>}
+              </div>
+            </button>
+          )
+        })}
+      </div>
+      <BigBtn onClick={()=>selected!==null&&onSelect(selected)} disabled={selected===null} col="#cc1a00">INICIAR ESTE CASO</BigBtn>
+    </div>
+  )
+}
+
 function WelcomeScreen({n1, n2, startsWith, juzgado, exp, onStart}) {
   return (
     <div style={{textAlign:'center',paddingTop:24}}>
@@ -960,10 +996,17 @@ export default function App() {
   const [starter,setStarter]=useState('p1')
 
   const startGame=(p2n)=>{
-    const shuffled=shuffle(Array.from({length:CASOS.length},(_,i)=>i)).slice(0,TOTAL_CASES)
-    setOrder(shuffled); setP2name(p2n)
+    setP2name(p2n)
     const s=Math.random()<.5?'p1':'p2'
-    setStarter(s); setDemIs(s); setScr('welcome')
+    setStarter(s); setDemIs(s)
+    setScr('caseselect')
+  }
+
+  const onCaseSelected=(caseId)=>{
+    // Put selected case first, then shuffle the rest
+    const rest=shuffle(Array.from({length:CASOS.length},(_,i)=>i).filter(i=>i!==caseId))
+    setOrder([caseId, ...rest.slice(0,TOTAL_CASES-1)])
+    setScr('welcome')
   }
 
   const onResult=({ch,gc,demIs:di,mediationAccepted,mediationAmount:mAmt})=>{
@@ -1003,7 +1046,7 @@ export default function App() {
 
   return (
     <div style={{minHeight:'100vh',background:'#1a0e05'}}>
-      {scr!=='register'&&scr!=='splash'&&(
+      {scr!=='register'&&scr!=='splash'&&scr!=='caseselect'&&(
         <div style={{background:'#0f0803',borderBottom:'1px solid #5a3a10',padding:'10px 16px',position:'sticky',top:0,zIndex:100,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:18,color:'#d4a030',letterSpacing:3}}>LA DEMANDA</div>
           {p1&&<div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:12,color:'#8a7a60',letterSpacing:1}}>{p1.name.split(' ')[0].toUpperCase()} · {fmt(p1.money)}</div>}
@@ -1016,6 +1059,7 @@ export default function App() {
         {scr==='home'&&p1&&<HomeScreen p1={p1} onLocal={()=>setScr('setup')} onOnline={()=>setScr('online')} onChange={()=>{setP1(null);setScr('register')}}/>}
         {scr==='online'&&p1&&<OnlineScreen p1={p1} onBack={()=>setScr('home')}/>}
         {scr==='setup'&&p1&&<SetupScreen p1={p1} onDone={n=>startGame(n)}/>}
+        {scr==='caseselect'&&p1&&p2name&&<CaseSelectScreen demName={demIs==='p1'?p1.name:p2name} onSelect={onCaseSelected}/>}
         {scr==='welcome'&&p1&&p2name&&<WelcomeScreen n1={p1.name} n2={p2name} startsWith={starter==='p1'?p1.name:p2name} juzgado={juzgado} exp={exp} onStart={()=>setScr('game')}/>}
         {scr==='game'&&p1&&p2name&&order.length>0&&<GameScreen key={idx} p1={p1} p2name={p2name} idx={idx} order={order} demIs={demIs} matchSc={matchSc} matchMon={matchMon} onResult={onResult} total={TOTAL_CASES}/>}
         {scr==='casoResult'&&lastResult&&<CasoResultScreen gc={lastResult.gc} demName={demName} defName={defName} stacks={lastResult.stacks} choices={lastResult.ch} matchSc={matchSc} matchMon={matchMon} idx={idx} total={TOTAL_CASES} onNext={onNext} mediation={lastResult.mediation} mediationAmount={lastResult.mediationAmount}/>}
