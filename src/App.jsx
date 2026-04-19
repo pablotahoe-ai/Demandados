@@ -645,6 +645,140 @@ function MatchResultScreen({n1, n2, matchSc, matchMon, onReset}) {
 /* ═══════════════════════════════════════════
    MAIN SCREENS
 ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   SPLASH SCREEN — portada estilo PDF
+═══════════════════════════════════════════ */
+function SplashScreen({onStart}) {
+  const paperStyle = {
+    position:'relative',
+    background:'linear-gradient(148deg,#e8d090,#c8a048)',
+    borderRadius:3,
+    padding:'44px 36px 120px',
+    maxWidth:440,
+    width:'100%',
+    boxShadow:'0 12px 48px rgba(0,0,0,.75)',
+  }
+  const titleStyle = {
+    fontFamily:"'Bebas Neue',sans-serif",
+    fontSize:72,
+    lineHeight:.88,
+    color:'#0f0800',
+    marginBottom:18,
+    letterSpacing:2,
+  }
+  const subtitleBoxStyle = {
+    background:'rgba(255,255,255,.72)',
+    padding:'5px 10px',
+    marginBottom:32,
+    display:'inline-block',
+  }
+  const subtitleStyle = {
+    fontFamily:"'Special Elite',serif",
+    fontSize:13,
+    color:'#1a0800',
+  }
+  const stampoStyle = {
+    position:'absolute',
+    bottom:68,
+    left:36,
+    border:'5px solid rgba(180,20,0,.82)',
+    borderRadius:6,
+    padding:'6px 18px',
+    transform:'rotate(-9deg)',
+  }
+  const stampoTextStyle = {
+    fontFamily:"'Bebas Neue',sans-serif",
+    fontSize:40,
+    color:'rgba(180,20,0,.82)',
+    letterSpacing:5,
+    lineHeight:1,
+  }
+  const postitStyle = {
+    position:'absolute',
+    bottom:28,
+    right:28,
+    background:'#f060a8',
+    width:108,
+    height:108,
+    display:'flex',
+    flexDirection:'column',
+    alignItems:'center',
+    justifyContent:'center',
+    cursor:'pointer',
+    boxShadow:'3px 4px 12px rgba(0,0,0,.35)',
+    transform:'rotate(4deg)',
+    userSelect:'none',
+  }
+  const postitLabelStyle = {
+    fontFamily:"'Bebas Neue',sans-serif",
+    fontSize:22,
+    color:'#1a0800',
+    letterSpacing:3,
+  }
+  const smileStyle = {
+    width:36,
+    height:36,
+    borderRadius:'50%',
+    border:'2.5px solid #1a0800',
+    position:'relative',
+    marginBottom:4,
+    flexShrink:0,
+  }
+  const eyeStyle = {
+    position:'absolute',
+    top:10,
+    width:4,
+    height:4,
+    borderRadius:'50%',
+    background:'#1a0800',
+  }
+  const mouthStyle = {
+    position:'absolute',
+    bottom:7,
+    left:'50%',
+    transform:'translateX(-50%)',
+    width:18,
+    height:9,
+    borderBottom:'2.5px solid #1a0800',
+    borderLeft:'2.5px solid #1a0800',
+    borderRight:'2.5px solid #1a0800',
+    borderTop:'none',
+    borderRadius:'0 0 12px 12px',
+  }
+  const clip1 = {position:'absolute',top:-8,right:40,width:3,height:28,background:'#888',borderRadius:2,transform:'rotate(8deg)'}
+  const clip2 = {position:'absolute',top:-6,right:52,width:3,height:24,background:'#999',borderRadius:2,transform:'rotate(5deg)'}
+  const dot1 = {position:'absolute',top:16,right:16,width:14,height:14,background:'#4ecfb0',borderRadius:2,opacity:.7}
+  const dot2 = {position:'absolute',top:32,right:16,width:14,height:14,background:'#f06040',borderRadius:2,opacity:.7}
+  const dot3 = {position:'absolute',top:16,right:32,width:14,height:14,background:'#f0c020',borderRadius:2,opacity:.7}
+
+  return (
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',justifyContent:'center',padding:'20px',background:'#1a0e05'}}>
+      <div style={paperStyle}>
+        <div style={clip1}/>
+        <div style={clip2}/>
+        <div style={dot1}/>
+        <div style={dot2}/>
+        <div style={dot3}/>
+        <h1 style={titleStyle}>EL JUEGO DE<br/>LA DEMANDA</h1>
+        <div style={subtitleBoxStyle}>
+          <p style={subtitleStyle}>Mandar la carta es facil. Mandarla bien es el juego.</p>
+        </div>
+        <div style={stampoStyle}>
+          <div style={stampoTextStyle}>URGENTE</div>
+        </div>
+        <div onClick={onStart} style={postitStyle}>
+          <div style={smileStyle}>
+            <div style={{...eyeStyle,left:8}}/>
+            <div style={{...eyeStyle,right:8}}/>
+            <div style={mouthStyle}/>
+          </div>
+          <div style={postitLabelStyle}>JUGAR</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function RegisterScreen({onDone}) {
   const [name,setName]=useState('')
   const go=()=>{if(name.trim().length<4)return;onDone(loadP(name.trim()))}
@@ -812,7 +946,7 @@ function WelcomeScreen({n1, n2, startsWith, juzgado, exp, onStart}) {
    APP ROOT
 ═══════════════════════════════════════════ */
 export default function App() {
-  const [scr,setScr]=useState('register')
+  const [scr,setScr]=useState('splash')
   const [p1,setP1]=useState(null)
   const [p2name,setP2name]=useState('')
   const [order,setOrder]=useState([])
@@ -869,13 +1003,15 @@ export default function App() {
 
   return (
     <div style={{minHeight:'100vh',background:'#1a0e05'}}>
-      {scr!=='register'&&(
+      {scr!=='register'&&scr!=='splash'&&(
         <div style={{background:'#0f0803',borderBottom:'1px solid #5a3a10',padding:'10px 16px',position:'sticky',top:0,zIndex:100,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
           <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:18,color:'#d4a030',letterSpacing:3}}>LA DEMANDA</div>
           {p1&&<div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:12,color:'#8a7a60',letterSpacing:1}}>{p1.name.split(' ')[0].toUpperCase()} · {fmt(p1.money)}</div>}
         </div>
       )}
-      <div style={{maxWidth:640,margin:'0 auto',padding:'16px 14px 80px'}}>
+      {scr==='splash'
+        ? <SplashScreen onStart={()=>setScr('register')}/>
+        : <div style={{maxWidth:640,margin:'0 auto',padding:'16px 14px 80px'}}>
         {scr==='register'&&<RegisterScreen onDone={p=>{setP1(p);setScr('home')}}/>}
         {scr==='home'&&p1&&<HomeScreen p1={p1} onLocal={()=>setScr('setup')} onOnline={()=>setScr('online')} onChange={()=>{setP1(null);setScr('register')}}/>}
         {scr==='online'&&p1&&<OnlineScreen p1={p1} onBack={()=>setScr('home')}/>}
@@ -883,8 +1019,9 @@ export default function App() {
         {scr==='welcome'&&p1&&p2name&&<WelcomeScreen n1={p1.name} n2={p2name} startsWith={starter==='p1'?p1.name:p2name} juzgado={juzgado} exp={exp} onStart={()=>setScr('game')}/>}
         {scr==='game'&&p1&&p2name&&order.length>0&&<GameScreen key={idx} p1={p1} p2name={p2name} idx={idx} order={order} demIs={demIs} matchSc={matchSc} matchMon={matchMon} onResult={onResult} total={TOTAL_CASES}/>}
         {scr==='casoResult'&&lastResult&&<CasoResultScreen gc={lastResult.gc} demName={demName} defName={defName} stacks={lastResult.stacks} choices={lastResult.ch} matchSc={matchSc} matchMon={matchMon} idx={idx} total={TOTAL_CASES} onNext={onNext} mediation={lastResult.mediation} mediationAmount={lastResult.mediationAmount}/>}
-        {scr==='matchResult'&&<MatchResultScreen n1={p1?.name||''} n2={p2name} matchSc={matchSc} matchMon={matchMon} onReset={reset}/>}
+        {scr==='matchResult'&&<MatchResultScreen n1={p1 ? p1.name : ''} n2={p2name} matchSc={matchSc} matchMon={matchMon} onReset={reset}/>}
       </div>
+      }
     </div>
   )
 }
