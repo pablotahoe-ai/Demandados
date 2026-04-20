@@ -438,5 +438,403 @@ export const CASOS = [
       { id: "nuclear", lbl: "Empezar a cobrarlo públicamente", desc: "Que todo el mundo sepa lo que pasó", emoji: "💣", v: -2 },
       { id: "esperar", lbl: "Darle más tiempo", desc: "La relación puede más que el dinero", emoji: "⏳", v: 1 },
     ],
-  },
+  },,
+
+{
+  id:9,cat:"PAREJA 💑",titulo:"El Spoiler Imperdonable",
+  desc:"Te contaron el final de la serie que llevabas tres semanas cuidando. Cuatro temporadas destruidas en diez segundos.",
+  base:9000,
+  ctx:{dem:"Tenés el mensaje con el spoiler y el historial de advertencias de no spoilear.",def:"No sabía que no habías llegado ahí. Además, la serie tiene cinco años."},
+  gravedad:[
+    {id:"catastrofe",lbl:"Me destruyó la experiencia entera",desc:"Tres semanas cuidando eso para nada",emoji:"💀",v:3},
+    {id:"exag",lbl:"Es una serie, no la vida real",desc:"Ya vas a ver otra cosa",emoji:"😌",v:-2},
+    {id:"dolio",lbl:"Dolió y no tiene vuelta atrás",desc:"Ese momento no se recupera",emoji:"😤",v:2},
+    {id:"menor",lbl:"Me molestó pero ya lo superé",desc:"No es para tanto",emoji:"🤷",v:-1}
+  ],
+  prueba:[
+    {id:"mensaje",lbl:"El mensaje con el spoiler textual",emoji:"📱",v:4},
+    {id:"aviso",lbl:"Mensajes donde avisé que no había llegado",emoji:"⚠️",v:4},
+    {id:"progreso",lbl:"Captura de mi progreso en la plataforma",emoji:"💻",v:3},
+    {id:"historial",lbl:"Historial de episodios vistos hasta ahí",emoji:"📺",v:3},
+    {id:"testigo",lbl:"Alguien que escuchó la conversación",emoji:"👤",v:2},
+    {id:"memo",lbl:"Lo recuerdo perfectamente",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"directo",lbl:"Mensaje claro con lo que sentís",desc:"Sin drama, sin emojis, solo los hechos",emoji:"📋",v:3},
+    {id:"silencio",lbl:"Silencio total hasta que pida disculpas",desc:"Que note la ausencia",emoji:"🤐",v:1},
+    {id:"sarcasmo",lbl:"Spoilearle algo a él también",desc:"Ojo por ojo, final por final",emoji:"😏",v:-2},
+    {id:"grupo",lbl:"Contarlo en el grupo de amigos",desc:"Que el entorno juzgue",emoji:"👥",v:0}
+  ],
+  respuesta:[
+    {id:"disculpa",lbl:"Me equivoqué totalmente, lo reconozco",desc:"No había dimensionado lo que hacía",emoji:"✅",v:3},
+    {id:"prescripcion",lbl:"La serie tiene cinco años",desc:"No es mi responsabilidad saber dónde estás",emoji:"🗓️",v:-1},
+    {id:"involuntario",lbl:"Lo dije sin pensar",desc:"No hubo intención de arruinar nada",emoji:"😅",v:1},
+    {id:"culpa",lbl:"Deberías haberla visto antes",desc:"Cinco años es mucho tiempo",emoji:"🤦",v:-2}
+  ],
+  argumento:[
+    {id:"comp",lbl:"Te ofrezco ver el final juntos de nuevo",desc:"Lo resignificamos con nueva perspectiva",emoji:"🎬",v:3},
+    {id:"intencion",lbl:"La intención importa",desc:"No hubo ningún ánimo de dañar",emoji:"😇",v:2},
+    {id:"exagerado",lbl:"La reacción es desproporcionada",desc:"Es entretenimiento, no cirugía",emoji:"📏",v:0},
+    {id:"cultura",lbl:"Los spoilers son parte de la cultura",desc:"Imposible evitarlos indefinidamente",emoji:"📺",v:-1}
+  ],
+  escalada:[
+    {id:"regla",lbl:"Acordamos una regla de spoilers para siempre",desc:"Por escrito, sin excepciones",emoji:"📝",v:4},
+    {id:"olvidar",lbl:"Lo dejo pasar esta vez",desc:"No vale el desgaste de la relación",emoji:"🤝",v:2},
+    {id:"igual",lbl:"Aceptás las disculpas y seguís mirando",desc:"La vida es corta, la serie también",emoji:"▶️",v:1},
+    {id:"nuclear",lbl:"Bloqueo preventivo durante próximas series",desc:"No te cuento nada de lo que miro",emoji:"🚫",v:-2}
+  ],
+},
+{
+  id:10,cat:"PAREJA 💑",titulo:"El Celular en la Cena",
+  desc:"Cuarta cena seguida mirando el teléfono. Conversación unilateral. El otro ausente en cuerpo presente.",
+  base:8500,
+  ctx:{dem:"Cuatro cenas documentadas y un mozo que preguntó si estaban bien.",def:"Estaba esperando un mensaje importante. Y la conversación tampoco era tan interesante."},
+  gravedad:[
+    {id:"patron",lbl:"No es una vez, es un patrón claro",desc:"Cuatro cenas seguidas no es casualidad",emoji:"😤",v:3},
+    {id:"moderno",lbl:"El teléfono es parte de la vida moderna",desc:"Todo el mundo lo hace",emoji:"📱",v:-2},
+    {id:"descuido",lbl:"Se olvida de que estoy ahí",desc:"Eso dice más que mil palabras",emoji:"😔",v:2},
+    {id:"menor",lbl:"Tampoco fue tan seguido",desc:"Estás exagerando un poco",emoji:"🤷",v:-1}
+  ],
+  prueba:[
+    {id:"foto",lbl:"Foto de él mirando el celu en la mesa",emoji:"📸",v:4},
+    {id:"mozo",lbl:"El mozo que preguntó si estaban bien",emoji:"👤",v:3},
+    {id:"historial",lbl:"Las cuatro fechas con capturas",emoji:"📊",v:3},
+    {id:"nota",lbl:"Nota que le dejaste en el mantel",emoji:"🗒️",v:2},
+    {id:"mensajes",lbl:"Sus propios mensajes durante la cena",emoji:"📱",v:2},
+    {id:"yo",lbl:"Lo viví en primera persona",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"hablar",lbl:"Conversación directa después de cenar",desc:"Sin teléfonos, cara a cara",emoji:"💬",v:3},
+    {id:"regla",lbl:"Propuesta formal de cenas sin celular",desc:"Con horario y consecuencias claras",emoji:"📋",v:3},
+    {id:"nota",lbl:"Nota escrita sobre la mesa",desc:"Si no escucha, que lea",emoji:"🗒️",v:1},
+    {id:"mismoJuego",lbl:"Vos también ignorás la próxima cena",desc:"Que sienta cómo es",emoji:"😏",v:-1}
+  ],
+  respuesta:[
+    {id:"reconoce",lbl:"Tenés razón, no lo había notado",desc:"Voy a cambiar el hábito",emoji:"✅",v:3},
+    {id:"urgente",lbl:"Era un mensaje urgente de trabajo",desc:"No podía ignorarlo en ese momento",emoji:"💼",v:1},
+    {id:"todos",lbl:"Todo el mundo usa el celu en la mesa",desc:"Es la norma actual",emoji:"🤷",v:-1},
+    {id:"aburrido",lbl:"La conversación tampoco enganchaba tanto",desc:"El teléfono llenó un vacío real",emoji:"😴",v:-3}
+  ],
+  argumento:[
+    {id:"cena",lbl:"Propongo una cena especial sin teléfonos",desc:"Esta semana, yo reservo",emoji:"🍽️",v:4},
+    {id:"habito",lbl:"Es un hábito difícil de romper",desc:"Necesito tiempo para cambiar",emoji:"⏳",v:1},
+    {id:"mutual",lbl:"Los dos miramos el celu a veces",desc:"No soy el único en esta mesa",emoji:"⚖️",v:0},
+    {id:"exagerado",lbl:"Le estás dando demasiada importancia",desc:"No es tan grave lo que pasó",emoji:"📏",v:-1}
+  ],
+  escalada:[
+    {id:"ritual",lbl:"Ritual de cenas sin tecnología acordado",desc:"Una vez por semana, mínimo",emoji:"📝",v:4},
+    {id:"disculpa",lbl:"Disculpa genuina y cambio inmediato",desc:"Empezando esta noche",emoji:"🙏",v:3},
+    {id:"parcial",lbl:"Celu en silencio pero visible",desc:"Transacción a mitad de camino",emoji:"🔇",v:1},
+    {id:"ignorar",lbl:"Hacerse el que no pasó nada",desc:"El tema se disuelve solo",emoji:"🙄",v:-2}
+  ],
+},
+{
+  id:11,cat:"PAREJA 💑",titulo:"El Control Remoto Secuestrado",
+  desc:"Cuatro horas de realities que nadie pidió. El control remoto desapareció estratégicamente al inicio de la noche.",
+  base:7000,
+  ctx:{dem:"El control apareció debajo de su almohada y hay registro del zapping unilateral.",def:"Me gusta lo que estaba dando. Vos podías hacer otra cosa."},
+  gravedad:[
+    {id:"cuatro",lbl:"Cuatro horas de televisión dictatorial",desc:"Sin posibilidad de negociación",emoji:"📺",v:3},
+    {id:"acuerdo",lbl:"Acordamos turnos que no se respetaron",desc:"Eso hace la diferencia",emoji:"😤",v:2},
+    {id:"normal",lbl:"A alguien le tiene que tocar decidir",desc:"Así funciona la convivencia",emoji:"🤷",v:-1},
+    {id:"menor",lbl:"Podías hacer otra cosa",desc:"Nadie te obligó a mirar",emoji:"😌",v:-2}
+  ],
+  prueba:[
+    {id:"remoto",lbl:"El control bajo la almohada, foto con hora",emoji:"📸",v:4},
+    {id:"acuerdo",lbl:"El acuerdo de turnos que teníamos",emoji:"📋",v:3},
+    {id:"historial",lbl:"Historial del televisor esa noche",emoji:"📺",v:3},
+    {id:"testigo",lbl:"Testigo que estuvo en el living",emoji:"👤",v:2},
+    {id:"guia",lbl:"La guía de programación de esa noche",emoji:"🗓️",v:1},
+    {id:"yo",lbl:"Lo sufrí en carne propia",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"turno",lbl:"Propuesta formal de turnos de televisión",desc:"Por semana, rotativo, sin excepciones",emoji:"📋",v:3},
+    {id:"tv",lbl:"Segunda pantalla para el cuarto",desc:"Inversión que resuelve el problema",emoji:"📺",v:2},
+    {id:"tomar",lbl:"Tomás el control vos también",desc:"Sin pedirlo, sin drama",emoji:"🎮",v:0},
+    {id:"otro",lbl:"Te vas a hacer otra cosa esa noche",desc:"Que quede sola mirando su reality",emoji:"🚶",v:1}
+  ],
+  respuesta:[
+    {id:"turno",lbl:"Acordemos turnos formales desde hoy",desc:"Sistema claro para los dos",emoji:"✅",v:3},
+    {id:"almohada",lbl:"El control estaba ahí por casualidad",desc:"No hubo estrategia ninguna",emoji:"😅",v:-2},
+    {id:"compartir",lbl:"Podías haberme dicho que querías otra cosa",desc:"Nunca lo mencionaste",emoji:"🤷",v:0},
+    {id:"gusto",lbl:"Era lo que yo quería ver esa noche",desc:"Tengo derecho a mis gustos",emoji:"📺",v:-1}
+  ],
+  argumento:[
+    {id:"app",lbl:"Instalamos app de votación de contenido",desc:"Democracia televisiva real",emoji:"🗳️",v:3},
+    {id:"comp",lbl:"Mañana elegís vos toda la noche",desc:"Compensación inmediata",emoji:"🎁",v:2},
+    {id:"derecho",lbl:"Tengo derecho a ver lo que me gusta",desc:"No me pueden dictar el consumo cultural",emoji:"⚖️",v:0},
+    {id:"exag",lbl:"Es televisión, no una dictadura",desc:"Estás construyendo un caso por el control",emoji:"🤦",v:-1}
+  ],
+  escalada:[
+    {id:"turno2",lbl:"Sistema de turnos semanales firmado",desc:"Con veto disponible una vez por semana",emoji:"📝",v:4},
+    {id:"tv2",lbl:"Invertimos en segunda televisión",desc:"Problema resuelto para siempre",emoji:"📺",v:3},
+    {id:"acuerdo",lbl:"Acuerdo verbal de respeto por los gustos",desc:"Sin sistema formal pero con consciencia",emoji:"🤝",v:1},
+    {id:"ignorar",lbl:"Cada uno que vea lo que pueda",desc:"El caos televisivo reina",emoji:"🙄",v:-3}
+  ],
+},
+{
+  id:12,cat:"CONVIVENCIA 🏠",titulo:"Los Platos Sin Lavar",
+  desc:"Tercer día consecutivo. La pileta desbordada. Una nota pasivo-agresiva ignorada. El aroma ya tiene nombre propio.",
+  base:9000,
+  ctx:{dem:"Foto de la pileta, la nota que dejaste y registro de los tres días.",def:"Estuve muy ocupado. Y la nota era innecesariamente agresiva."},
+  gravedad:[
+    {id:"tres",lbl:"Tres días es un patrón, no un olvido",desc:"La pileta ya tiene ecosistema propio",emoji:"🦠",v:3},
+    {id:"olor",lbl:"El olor ya afecta a todos en la casa",desc:"Consecuencias comunitarias concretas",emoji:"🤢",v:3},
+    {id:"ocupado",lbl:"Estaba muy ocupado esta semana",desc:"Las circunstancias no ayudaron",emoji:"💼",v:-1},
+    {id:"leve",lbl:"Son platos, se lavan en cinco minutos",desc:"La solución está disponible",emoji:"🤷",v:-2}
+  ],
+  prueba:[
+    {id:"foto",lbl:"Foto de la pileta con fecha",emoji:"📸",v:4},
+    {id:"nota",lbl:"La nota que dejaste ignorada",emoji:"🗒️",v:3},
+    {id:"acuerdo",lbl:"El acuerdo de turnos de limpieza",emoji:"📋",v:3},
+    {id:"testigo",lbl:"El otro roommate como testigo",emoji:"👤",v:3},
+    {id:"historial",lbl:"Registro de tres días sin lavar",emoji:"📊",v:3},
+    {id:"yo",lbl:"Lo vi con mis propios ojos",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"turno",lbl:"Sistema de turnos de limpieza formal",desc:"Con fecha, hora y responsable",emoji:"📋",v:3},
+    {id:"directo",lbl:"Conversación directa sobre el impacto",desc:"Sin nota, cara a cara",emoji:"💬",v:2},
+    {id:"multa",lbl:"Sistema de compensación económica",desc:"Por cada día sin lavar hay un costo",emoji:"💰",v:2},
+    {id:"fotos",lbl:"Documentación fotográfica diaria",desc:"Para registro del deterioro",emoji:"📸",v:0}
+  ],
+  respuesta:[
+    {id:"lavo",lbl:"Los lavo ahora mismo",desc:"Sin discutir más el tema",emoji:"✅",v:4},
+    {id:"turno2",lbl:"Acordemos turnos rotativos",desc:"Sistema claro para todos",emoji:"📋",v:3},
+    {id:"ocupado2",lbl:"Tuve una semana muy complicada",desc:"No es un patrón, fue una excepción",emoji:"💼",v:0},
+    {id:"igual",lbl:"Vos tampoco sos perfecto con la limpieza",desc:"Miremos el panorama completo",emoji:"⚖️",v:-2}
+  ],
+  argumento:[
+    {id:"lavo2",lbl:"Lavo todo y propongo sistema preventivo",desc:"Para que no vuelva a pasar",emoji:"🧽",v:4},
+    {id:"turno3",lbl:"Acordemos turnos rotativos",desc:"Sistema claro para todos",emoji:"📋",v:3},
+    {id:"ocupado3",lbl:"Hay semanas que desbordan",desc:"No siempre se puede cumplir todo",emoji:"😰",v:0},
+    {id:"exag",lbl:"Tres días no es el apocalipsis",desc:"Hay que relativizar",emoji:"📏",v:-2}
+  ],
+  escalada:[
+    {id:"sistema",lbl:"Sistema de limpieza con consecuencias reales",desc:"Firmado por todos los roommates",emoji:"📝",v:4},
+    {id:"inmediato",lbl:"Lavar ahora más compensación económica",desc:"Por los tres días de incumplimiento",emoji:"💰",v:3},
+    {id:"mediacion",lbl:"Mediación con el tercer roommate",desc:"Voz neutral que establezca reglas",emoji:"⚖️",v:2},
+    {id:"ignorar",lbl:"Seguir dejando que se acumulen",desc:"El tiempo resolverá",emoji:"🙄",v:-3}
+  ],
+},
+{
+  id:13,cat:"CONVIVENCIA 🏠",titulo:"El Papel Higiénico Eterno",
+  desc:"Tres veces esta semana. El rollo vacío en el soporte. El de repuesto a quince centímetros. Nadie lo cambia.",
+  base:6500,
+  ctx:{dem:"Tres fotos del rollo vacío con hora. El repuesto a quince centímetros en cada foto.",def:"Se me olvidó. No es intencional. Y el de repuesto estaba justo ahí disponible."},
+  gravedad:[
+    {id:"tres",lbl:"Tres veces esta semana es un patrón",desc:"El repuesto estaba a quince centímetros",emoji:"🧻",v:3},
+    {id:"principio",lbl:"Es una cuestión de principios",desc:"El detalle dice todo",emoji:"🎯",v:2},
+    {id:"olvido",lbl:"Se olvida, no hay mala fe",desc:"No es un crimen",emoji:"😅",v:-1},
+    {id:"menor",lbl:"Es papel higiénico",desc:"Hay problemas más serios",emoji:"🤷",v:-2}
+  ],
+  prueba:[
+    {id:"foto",lbl:"Las tres fotos con timestamp",emoji:"📸",v:4},
+    {id:"repuesto",lbl:"El repuesto a quince centímetros en la foto",emoji:"📏",v:4},
+    {id:"historial",lbl:"Patrón documentado de la semana",emoji:"📊",v:3},
+    {id:"testigo",lbl:"Testigo del incidente",emoji:"👤",v:2},
+    {id:"nota",lbl:"Nota que dejaste la primera vez",emoji:"🗒️",v:2},
+    {id:"yo",lbl:"Lo descubrí en el peor momento posible",emoji:"🧠",v:-1}
+  ],
+  forma:[
+    {id:"regla",lbl:"Regla simple: quien termina, cambia",desc:"Sin excepciones ni debate",emoji:"📋",v:3},
+    {id:"comprar",lbl:"Acordar stock mínimo en el baño",desc:"Nunca más el repuesto afuera",emoji:"🛒",v:3},
+    {id:"charla",lbl:"Conversación sobre los pequeños detalles",desc:"Que forman la convivencia",emoji:"💬",v:2},
+    {id:"multa",lbl:"Multa simbólica por cada vez",desc:"Consecuencia económica proporcional",emoji:"💰",v:1}
+  ],
+  respuesta:[
+    {id:"cambio",lbl:"Cambio el rollo siempre de ahora en más",desc:"Promesa simple y directa",emoji:"✅",v:3},
+    {id:"automatico",lbl:"Pongo alerta en el teléfono para recordarlo",desc:"Solución técnica al problema",emoji:"🔔",v:3},
+    {id:"olvido2",lbl:"Genuinamente se me olvidó",desc:"Sin ninguna intención",emoji:"😅",v:0},
+    {id:"disponible",lbl:"El repuesto estaba disponible",desc:"No era tan difícil resolverlo",emoji:"🤷",v:-1}
+  ],
+  argumento:[
+    {id:"stock",lbl:"Propongo stock fijo en el baño",desc:"Nunca menos de tres rollos",emoji:"🛒",v:3},
+    {id:"automatico2",lbl:"Alerta en el teléfono instalada ya",desc:"Solución técnica inmediata",emoji:"🔔",v:2},
+    {id:"olvido3",lbl:"El hábito tarda en formarse",desc:"Necesito tiempo para incorporarlo",emoji:"⏳",v:0},
+    {id:"exag",lbl:"Tres incidentes no hacen un caso",desc:"La proporcionalidad está ausente",emoji:"📏",v:-2}
+  ],
+  escalada:[
+    {id:"regla2",lbl:"Regla oficial incorporada al acuerdo de convivencia",desc:"Quien termina, cambia. Sin debate.",emoji:"📝",v:4},
+    {id:"stock2",lbl:"Sistema de stock mínimo implementado",desc:"Con responsable semanal de reposición",emoji:"🛒",v:3},
+    {id:"acuerdo",lbl:"Acuerdo verbal con doble confirmación",desc:"Comprometido en presencia de testigo",emoji:"🤝",v:1},
+    {id:"ignorar",lbl:"Seguir documentando sin hacer nada",desc:"Construir el caso por si acaso",emoji:"🙄",v:-2}
+  ],
+},
+{
+  id:14,cat:"AMIGOS 👥",titulo:"El que Cancela Siempre",
+  desc:"Confirmó el viernes. Canceló el sábado a las 7pm. Ya habías comprado la entrada. Tercera vez este mes.",
+  base:11000,
+  ctx:{dem:"La confirmación por chat, la entrada comprada, el ticket no reembolsable y el historial de cancelaciones.",def:"Me surgió algo urgente. No lo pude evitar. Pasa a veces."},
+  gravedad:[
+    {id:"entrada",lbl:"Compré la entrada basándome en su confirmación",desc:"Hay pérdida económica concreta",emoji:"🎫",v:3},
+    {id:"patron",lbl:"No es la primera vez que cancela así",desc:"Hay un historial documentado",emoji:"📊",v:3},
+    {id:"surge",lbl:"Le surgió algo, pasa",desc:"La vida es impredecible",emoji:"🤷",v:-1},
+    {id:"menor",lbl:"La entrada no era tan cara",desc:"La pérdida es manejable",emoji:"😌",v:-2}
+  ],
+  prueba:[
+    {id:"confirmacion",lbl:"El mensaje de confirmación del viernes",emoji:"📱",v:4},
+    {id:"entrada",lbl:"La entrada comprada",emoji:"🎫",v:4},
+    {id:"ticket",lbl:"El gasto no reembolsable",emoji:"🧾",v:3},
+    {id:"horario",lbl:"Hora de la cancelación vs hora del evento",emoji:"⏰",v:3},
+    {id:"historial",lbl:"Las otras veces que canceló así",emoji:"📊",v:3},
+    {id:"yo",lbl:"Lo recuerdo perfectamente",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"reembolso",lbl:"Pedís que cubra el costo de la entrada",desc:"Consecuencia directa de la cancelación",emoji:"💰",v:3},
+    {id:"directo",lbl:"Mensaje directo sobre el impacto",desc:"Sin drama, con datos",emoji:"💬",v:2},
+    {id:"regla",lbl:"Nueva regla: confirmar con 48hs de anticipación",desc:"O asumir el costo",emoji:"📋",v:2},
+    {id:"silencio",lbl:"Silencio selectivo por una semana",desc:"Que note la ausencia",emoji:"🤐",v:0}
+  ],
+  respuesta:[
+    {id:"pago",lbl:"Pago la entrada, lo reconozco",desc:"Error mío, consecuencia mía",emoji:"✅",v:4},
+    {id:"surge2",lbl:"Me surgió algo urgente e inevitable",desc:"No tenía alternativa",emoji:"😔",v:0},
+    {id:"pasa",lbl:"Pasa en todas las amistades",desc:"Nadie es perfecto en esto",emoji:"🤷",v:-1},
+    {id:"cara",lbl:"No debías haber comprado sin confirmar bien",desc:"El riesgo era tuyo",emoji:"😤",v:-2}
+  ],
+  argumento:[
+    {id:"pago2",lbl:"Pago y me comprometo a avisar con anticipación",desc:"Cambio de conducta real",emoji:"💸",v:4},
+    {id:"proxima",lbl:"La próxima salida es a mi cargo",desc:"Compensación futura",emoji:"🎁",v:2},
+    {id:"urgente",lbl:"Fue una emergencia genuina",desc:"Sin poder evitarlo",emoji:"🚨",v:1},
+    {id:"impredecible",lbl:"La vida no siempre es predecible",desc:"El sistema de confirmación tiene fallas",emoji:"🌪️",v:-1}
+  ],
+  escalada:[
+    {id:"pago3",lbl:"Pago la entrada más una salida de compensación",desc:"Cierra el tema de forma justa",emoji:"📝",v:4},
+    {id:"regla2",lbl:"Sistema de confirmación con 48hs de margen",desc:"Y cobertura de gastos si se cancela tarde",emoji:"📋",v:3},
+    {id:"mediacion",lbl:"Que un amigo en común opine",desc:"Perspectiva neutral sobre lo justo",emoji:"⚖️",v:1},
+    {id:"ignorar",lbl:"Absorber el gasto y bajar las expectativas",desc:"Nunca más comprar basado en su confirmación",emoji:"🙄",v:-2}
+  ],
+},
+{
+  id:15,cat:"AMIGOS 👥",titulo:"El que Siempre Llega Tarde",
+  desc:"Citados a las 8pm. Llegó a las 9:15pm. El restaurante ya no tenía la mesa reservada. Cuarta vez este mes.",
+  base:9000,
+  ctx:{dem:"La reserva perdida, los mensajes de la hora acordada y el historial de llegadas tarde.",def:"Me surgió algo. Y tampoco son tan puntuales todos. Llegar tarde es parte de mi forma de ser."},
+  gravedad:[
+    {id:"reserva",lbl:"Perdimos la mesa por su demora",desc:"Consecuencias concretas para todos",emoji:"🍽️",v:3},
+    {id:"patron",lbl:"Cuarta vez este mes es sistemático",desc:"No fue una excepción",emoji:"📊",v:3},
+    {id:"surge",lbl:"Le surgió algo imprevisto",desc:"La vida es impredecible",emoji:"🤷",v:-1},
+    {id:"menor",lbl:"Igual comimos bien",desc:"El resultado final no fue tan malo",emoji:"😌",v:-2}
+  ],
+  prueba:[
+    {id:"reserva2",lbl:"Confirmación de la reserva perdida",emoji:"📋",v:4},
+    {id:"hora",lbl:"Los mensajes indicando la hora acordada",emoji:"📱",v:3},
+    {id:"historial",lbl:"Registro de llegadas tarde previas",emoji:"📊",v:3},
+    {id:"testigos",lbl:"El resto del grupo como testigos",emoji:"👥",v:3},
+    {id:"foto",lbl:"Foto del grupo esperando sin mesa",emoji:"📸",v:2},
+    {id:"yo",lbl:"Lo vi llegar tarde",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"directo",lbl:"Decirle el impacto que tuvo su demora",desc:"Sin gritar, con datos concretos",emoji:"💬",v:3},
+    {id:"sistema",lbl:"Sistema de grupos: se espera 20 minutos máximo",desc:"Regla del grupo de acá en más",emoji:"⏰",v:3},
+    {id:"adelante",lbl:"La próxima empiezan sin esperarlo",desc:"Consecuencia natural",emoji:"🚀",v:2},
+    {id:"temprano",lbl:"Citarlo una hora antes que al resto",desc:"Que llegue cuando debería",emoji:"⏰",v:1}
+  ],
+  respuesta:[
+    {id:"reconoce",lbl:"Fue mi culpa, no vuelve a pasar",desc:"Reconocimiento sin excusas",emoji:"✅",v:3},
+    {id:"comp",lbl:"Pago la diferencia de mesa más la incomodidad",desc:"Compensación concreta",emoji:"💰",v:3},
+    {id:"surge2",lbl:"Me surgió algo genuinamente urgente",desc:"Fue una situación extraordinaria",emoji:"🚨",v:0},
+    {id:"exag",lbl:"Una hora tampoco es tanto",desc:"La reacción es exagerada",emoji:"😤",v:-2}
+  ],
+  argumento:[
+    {id:"proxima",lbl:"La próxima me encargo de la reserva",desc:"Compensación organizativa",emoji:"📋",v:3},
+    {id:"comp2",lbl:"Pago algo de la noche como compensación",desc:"Reconocimiento económico",emoji:"💰",v:2},
+    {id:"urgente",lbl:"Fue genuinamente urgente",desc:"Sin poder evitarlo",emoji:"🚨",v:1},
+    {id:"flexible",lbl:"Las reuniones sociales tienen margen de flexibilidad",desc:"La rigidez también tiene un costo",emoji:"🤷",v:-1}
+  ],
+  escalada:[
+    {id:"regla",lbl:"Regla del grupo: 20 minutos de espera máximo",desc:"Acordada por todos para el futuro",emoji:"📝",v:4},
+    {id:"comp3",lbl:"Compensación económica por el daño causado",desc:"Más compromiso de puntualidad",emoji:"💰",v:3},
+    {id:"ignorar",lbl:"Seguir citándolo una hora antes",desc:"Solución unilateral no oficial",emoji:"🙄",v:1},
+    {id:"excluir",lbl:"No incluirlo en reservas futuras",desc:"Consecuencia lógica",emoji:"🚫",v:0}
+  ],
+},
+{
+  id:16,cat:"SALIDAS 🍔",titulo:"La Cuenta Imposible de Dividir",
+  desc:"Ocho personas, siete opiniones. Uno pidió agua y quiere pagar lo mismo que el que pidió lo más caro.",
+  base:8000,
+  ctx:{dem:"Pediste lo más económico. El total dividido igual incluye tres tragos que no tomaste.",def:"Dividir a detalle es un horror logístico. Así funciona cuando se sale en grupo."},
+  gravedad:[
+    {id:"diferencia",lbl:"La diferencia entre lo que pedí y lo que pago es el doble",desc:"No es un asunto menor",emoji:"💰",v:3},
+    {id:"justo",lbl:"La equidad importa incluso entre amigos",desc:"Cada uno paga lo que consumió",emoji:"⚖️",v:2},
+    {id:"grupo",lbl:"Así funciona cuando se sale en grupo",desc:"A veces se gana, a veces se pierde",emoji:"🤷",v:-2},
+    {id:"menor",lbl:"La diferencia no es tan grande",desc:"No vale el conflicto",emoji:"😌",v:-1}
+  ],
+  prueba:[
+    {id:"cuenta",lbl:"La cuenta original con detalle de consumo",emoji:"🧾",v:4},
+    {id:"calculo",lbl:"El cálculo de la diferencia real",emoji:"🧮",v:3},
+    {id:"pedido",lbl:"El registro de lo que pediste vos",emoji:"📱",v:3},
+    {id:"foto",lbl:"Foto de tu plato",emoji:"📸",v:2},
+    {id:"testigo",lbl:"Alguien que vio lo que pediste",emoji:"👤",v:2},
+    {id:"yo",lbl:"Lo que recuerdo haber pedido",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"app",lbl:"Usar una app de división de cuentas",desc:"Tecnología que resuelve el debate",emoji:"📱",v:3},
+    {id:"detalle",lbl:"Propuesta de división por consumo real",desc:"Cada uno paga lo suyo exactamente",emoji:"🧮",v:3},
+    {id:"propina",lbl:"División igual pero sacando propina aparte",desc:"Compromiso intermedio",emoji:"💰",v:2},
+    {id:"hablar",lbl:"Plantearlo antes de pedir",desc:"Acordar el sistema antes del menú",emoji:"💬",v:2}
+  ],
+  respuesta:[
+    {id:"app2",lbl:"Usemos la app, resuelve todo",desc:"Sin debate manual",emoji:"📱",v:3},
+    {id:"detalle2",lbl:"Está bien, dividimos por consumo",desc:"Es lo más justo",emoji:"✅",v:3},
+    {id:"logistica",lbl:"Dividir a detalle lleva una hora",desc:"No es práctico",emoji:"⏰",v:-1},
+    {id:"promedio",lbl:"La división igual promedia las diferencias",desc:"A veces pagás más, a veces menos",emoji:"⚖️",v:-2}
+  ],
+  argumento:[
+    {id:"siempre",lbl:"Propongo este sistema para todas las salidas futuras",desc:"App de división, acordado antes de sentarse",emoji:"📱",v:4},
+    {id:"social",lbl:"La dinámica social vale más que unos pesos",desc:"No arruino una noche por esto",emoji:"🤝",v:0},
+    {id:"vez",lbl:"Esta vez pago más pero la próxima compenso",desc:"Balance a largo plazo",emoji:"⚖️",v:1},
+    {id:"norma",lbl:"La norma del grupo es dividir igual",desc:"Si no te gusta, proponelo antes",emoji:"📏",v:-1}
+  ],
+  escalada:[
+    {id:"app3",lbl:"App de cuentas para todas las salidas futuras",desc:"Acordado por el grupo antes de la próxima",emoji:"📝",v:4},
+    {id:"paga",lbl:"Esta vez pagan la diferencia, próxima se usa app",desc:"Compensación y sistema para adelante",emoji:"💰",v:3},
+    {id:"acuerdo",lbl:"Acuerdo oral de división por consumo",desc:"Que quede claro para el futuro",emoji:"🤝",v:2},
+    {id:"ignorar",lbl:"Absorber la diferencia y cambiar de grupo",desc:"El costo de una lección aprendida",emoji:"🙄",v:-3}
+  ],
+},
+{
+  id:17,cat:"DIGITAL 💻",titulo:"Los Audios Eternos",
+  desc:"Quince audios. El primero dura cuatro minutos. El último dice lo mismo que el primero. Todo podría ser un texto.",
+  base:6500,
+  ctx:{dem:"Los quince audios documentados con duración total de 23 minutos. El resumen cabe en dos líneas.",def:"Me expreso mejor hablando. Y no estás obligado a escucharlos al instante."},
+  gravedad:[
+    {id:"quince",lbl:"Quince audios en un día es invasión sonora",desc:"El chat quedó inutilizable",emoji:"🎙️",v:3},
+    {id:"23min",lbl:"23 minutos de audio para info de 2 líneas",desc:"La proporción está mal",emoji:"⏱️",v:2},
+    {id:"expreso",lbl:"Es su forma de comunicarse",desc:"Cada uno tiene su estilo",emoji:"🤷",v:-2},
+    {id:"menor",lbl:"Los audios son parte de la vida moderna",desc:"Acostumbrarse",emoji:"📱",v:-1}
+  ],
+  prueba:[
+    {id:"captura",lbl:"Captura de los quince audios en el chat",emoji:"📱",v:4},
+    {id:"duracion",lbl:"La duración total de 23 minutos",emoji:"⏱️",v:3},
+    {id:"resumen",lbl:"El texto de dos líneas que los resume",emoji:"📝",v:3},
+    {id:"testigo",lbl:"Otro miembro del chat que también sufre",emoji:"👤",v:2},
+    {id:"silenciados",lbl:"Los audios silenciados que acumulé",emoji:"🔇",v:2},
+    {id:"yo",lbl:"Lo tuve que escuchar todo",emoji:"🧠",v:-2}
+  ],
+  forma:[
+    {id:"regla",lbl:"Regla de audios: máximo 2 por conversación",desc:"Y que duren menos de un minuto",emoji:"⏱️",v:3},
+    {id:"texto",lbl:"Pedís que use texto cuando pueda",desc:"Para mensajes informativos",emoji:"📝",v:2},
+    {id:"hablar",lbl:"Plantearlo directamente",desc:"Sin drama, con claridad",emoji:"💬",v:2},
+    {id:"silenciar",lbl:"Silenciás el chat por una semana",desc:"Consecuencia natural",emoji:"🔇",v:0}
+  ],
+  respuesta:[
+    {id:"texto2",lbl:"Voy a usar más texto cuando sea posible",desc:"Cambio de hábito genuino",emoji:"✅",v:3},
+    {id:"minuto",lbl:"Límite de un minuto por audio de acá en más",desc:"Compromiso concreto",emoji:"⏱️",v:2},
+    {id:"expreso2",lbl:"Me expreso mejor hablando",desc:"Es mi forma de comunicarme",emoji:"🗣️",v:-1},
+    {id:"nooblig",lbl:"No estás obligado a escucharlos de inmediato",desc:"Son audios, no llamadas",emoji:"🤷",v:-2}
+  ],
+  argumento:[
+    {id:"balance",lbl:"Audio para lo complejo, texto para lo simple",desc:"Sistema racional acordado",emoji:"⚖️",v:3},
+    {id:"minuto2",lbl:"Límite de un minuto por audio de acá en más",desc:"Compromiso concreto",emoji:"⏱️",v:2},
+    {id:"escucha",lbl:"Podés escucharlos cuando quieras",desc:"No son urgentes si no los marco así",emoji:"📱",v:0},
+    {id:"forma",lbl:"La forma de comunicarse es personal",desc:"No se puede legislar",emoji:"🗣️",v:-1}
+  ],
+  escalada:[
+    {id:"protocolo",lbl:"Protocolo de comunicación acordado",desc:"Audio solo para lo urgente o emotivo",emoji:"📝",v:4},
+    {id:"reducir",lbl:"Máximo un audio por mensaje de ahora en más",desc:"Límite técnico self-impuesto",emoji:"⏱️",v:3},
+    {id:"llamada",lbl:"Llamada directa cuando haya mucho para decir",desc:"Más eficiente que quince audios",emoji:"📞",v:2},
+    {id:"ignorar",lbl:"Silenciar para siempre y leer los importantes",desc:"Solución unilateral",emoji:"🙄",v:-2}
+  ],
+}
+
 ]
