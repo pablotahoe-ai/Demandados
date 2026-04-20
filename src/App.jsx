@@ -49,10 +49,11 @@ function calcLiveCs(gc, ch) {
   return Math.max(0,cs)
 }
 
-function calcTransfer(cs, ds) {
-  const total=cs+ds; if(total===0) return 3000
-  const diff=Math.abs(cs-ds)
-  return Math.min(TRANSFER_MAX, Math.max(3000, Math.round((diff/total)*25000)))
+function calcTransfer(cs, ds, demGano) {
+  // El ganador cobra el valor de su stack
+  // Si gana el demandante cobra cs, si gana el demandado cobra ds
+  const winnerVal = demGano ? cs : ds
+  return Math.min(TRANSFER_MAX, Math.max(1500, Math.round(winnerVal)))
 }
 
 function calcCaseStrength(gc) {
@@ -526,9 +527,8 @@ function GameScreen({p1, p2name, idx, order, demIs, matchSc, matchMon, onResult,
 function CasoResultScreen({gc, demName, defName, stacks, choices, matchSc, matchMon, idx, total, onNext, mediation, mediationAmount}) {
   const {cs,ds}=stacks
   const demGano=cs>ds; const empate=cs===ds
-  const transfer=mediation?mediationAmount:calcTransfer(cs,ds)
-  const [show,setShow]=useState(false)
-  useEffect(()=>{const t=setTimeout(()=>setShow(true),500);return()=>clearTimeout(t)},[])
+  const transfer=mediation?mediationAmount:calcTransfer(cs,ds,demGano)
+  const show = true  // Mostrar todo de inmediato, sin animación
   const lbl=(field,id)=>gc[field]?.find(x=>x.id===id)?.lbl||'—'
 
   return (
@@ -544,29 +544,29 @@ function CasoResultScreen({gc, demName, defName, stacks, choices, matchSc, match
           {mediation?'ACUERDO EXTRAJUDICIAL':'VALOR DE LAS JUGADAS'}
         </div>
         {!mediation&&(
-          <div style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:8,alignItems:'center',marginBottom:show?12:0}}>
+          <div style={{display:'grid',gridTemplateColumns:'1fr auto 1fr',gap:8,alignItems:'center',marginBottom:12}}>
             <div style={{textAlign:'center'}}>
               <div style={{fontSize:9,color:'#5a3a10',letterSpacing:1,marginBottom:3}}>DEMANDA</div>
               <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,color:'#cc1a00',marginBottom:3}}>{demName.split(' ')[0].toUpperCase()}</div>
-              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:show?22:0,color:(demGano&&!empate)?'#cc1a00':'#5a4a30',transition:'font-size .6s ease',overflow:'hidden'}}>{fmt(cs)}</div>
-              {(demGano&&!empate)&&show&&<div style={{fontSize:18,marginTop:4}}>🏆</div>}
+              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:22,color:(demGano&&!empate)?'#cc1a00':'#5a4a30'}}>{fmt(cs)}</div>
+              {(demGano&&!empate)&&<div style={{fontSize:18,marginTop:4}}>🏆</div>}
             </div>
             <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:16,color:'#8a7a60'}}>VS</div>
             <div style={{textAlign:'center'}}>
               <div style={{fontSize:9,color:'#5a3a10',letterSpacing:1,marginBottom:3}}>DEFENSA</div>
               <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,color:'#0066cc',marginBottom:3}}>{defName.split(' ')[0].toUpperCase()}</div>
-              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:show?22:0,color:(!demGano&&!empate)?'#0066cc':'#5a4a30',transition:'font-size .6s ease',overflow:'hidden'}}>{fmt(ds)}</div>
-              {(!demGano&&!empate)&&show&&<div style={{fontSize:18,marginTop:4}}>🏆</div>}
+              <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:22,color:(!demGano&&!empate)?'#0066cc':'#5a4a30'}}>{fmt(ds)}</div>
+              {(!demGano&&!empate)&&<div style={{fontSize:18,marginTop:4}}>🏆</div>}
             </div>
           </div>
         )}
-        {mediation&&show&&(
+        {mediation&&(
           <div style={{marginBottom:12}}>
             <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:36,color:'#16a34a',marginBottom:4}}>{fmt(mediationAmount)}</div>
             <div style={{fontSize:12,color:'#5a3a10'}}>{defName.split(' ')[0]} pagó sin ir a juicio</div>
           </div>
         )}
-        {show&&!empate&&(
+        {!empate&&(
           <div style={{background:'rgba(0,0,0,.07)',borderRadius:3,padding:'8px 12px',borderLeft:`3px solid ${mediation?'#16a34a':demGano?'#cc1a00':'#0066cc'}`}}>
             <span style={{fontSize:13,color:'#3a2000'}}>
               {mediation||demGano?defName.split(' ')[0]:demName.split(' ')[0]} le pagó{' '}
@@ -575,19 +575,26 @@ function CasoResultScreen({gc, demName, defName, stacks, choices, matchSc, match
             </span>
           </div>
         )}
-        {show&&choices.timeout&&<div style={{marginTop:8,background:'rgba(180,0,0,.1)',borderRadius:3,padding:'6px 10px',fontSize:12,color:'#cc1a00'}}>Penalización por tiempo agotado</div>}
+        {choices.timeout&&<div style={{marginTop:8,background:'rgba(180,0,0,.1)',borderRadius:3,padding:'6px 10px',fontSize:12,color:'#cc1a00'}}>Penalización por tiempo agotado</div>}
       </Card>
 
-      {show&&!mediation&&(
+      {!mediation&&(
         <Card st={{marginBottom:14}}>
-          <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,color:'#3a2800',letterSpacing:1,marginBottom:10}}>ASÍ JUGARON</div>
+          <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,color:'#3a2800',letterSpacing:1,marginBottom:6}}>EL CASO</div>
+          <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:16,color:'#cc1a00',marginBottom:4}}>{gc.titulo}</div>
+          <div style={{fontSize:11,color:'#5a3a10',marginBottom:10,lineHeight:1.4}}>{gc.desc}</div>
+          <Divider/>
+          <div style={{fontFamily:"'Bebas Neue',sans-serif",fontSize:11,color:'#3a2800',letterSpacing:1,marginBottom:8,marginTop:8}}>ASÍ JUGARON</div>
           <div style={{fontSize:12,color:'#3a2000',lineHeight:2.1}}>
-            <div><strong>{demName.split(' ')[0]}</strong> · Gravedad: <em>{lbl('gravedad',choices.gravedad)}</em></div>
-            <div><strong>{demName.split(' ')[0]}</strong> · Forma: <em>{lbl('forma',choices.forma)}</em></div>
+            <div style={{color:'#8a4a00',fontFamily:"'Bebas Neue',sans-serif",fontSize:10,letterSpacing:1,marginBottom:2}}>DEMANDANTE · {demName.split(' ')[0].toUpperCase()}</div>
+            <div><strong>Gravedad:</strong> <em>{lbl('gravedad',choices.gravedad)}</em></div>
+            <div><strong>Pruebas:</strong> <em>{(choices.prueba||[]).map(id=>gc.prueba.find(x=>x.id===id)?.lbl||id).join(', ')}</em></div>
+            <div><strong>Presentación:</strong> <em>{lbl('forma',choices.forma)}</em></div>
             <Divider/>
-            <div><strong>{defName.split(' ')[0]}</strong> · Respuesta: <em>{lbl('respuesta',choices.respuesta)}</em></div>
-            <div><strong>{defName.split(' ')[0]}</strong> · Argumento: <em>{lbl('argumento',choices.argumento)}</em></div>
-            <div><strong>{defName.split(' ')[0]}</strong> · Escalada: <em>{lbl('escalada',choices.escalada)}</em></div>
+            <div style={{color:'#0044aa',fontFamily:"'Bebas Neue',sans-serif",fontSize:10,letterSpacing:1,marginBottom:2,marginTop:4}}>DEMANDADO · {defName.split(' ')[0].toUpperCase()}</div>
+            <div><strong>Respuesta:</strong> <em>{lbl('respuesta',choices.respuesta)}</em></div>
+            <div><strong>Argumento:</strong> <em>{lbl('argumento',choices.argumento)}</em></div>
+            <div><strong>Escalada:</strong> <em>{lbl('escalada',choices.escalada)}</em></div>
           </div>
         </Card>
       )}
@@ -1021,7 +1028,7 @@ export default function App() {
     }
     const stacks=calcStacks(gc,ch)
     const {cs,ds}=stacks; const demGano=cs>ds; const empate=cs===ds
-    const transfer=empate?0:calcTransfer(cs,ds)
+    const transfer=empate?0:calcTransfer(cs,ds,demGano)
     if(!empate){
       if(demGano){if(di==='p1'){newSc.p1++;newMon.p1+=transfer;newMon.p2-=transfer}else{newSc.p2++;newMon.p2+=transfer;newMon.p1-=transfer}}
       else{if(di==='p1'){newSc.p2++;newMon.p2+=transfer;newMon.p1-=transfer}else{newSc.p1++;newMon.p1+=transfer;newMon.p2-=transfer}}
